@@ -8,6 +8,6 @@
   integrity sha512-k+z93v7bLFEh0HXmz130Fkuh+TCuU4Q0vw5FacAPT8XHHftp15xgDfltZOm8Yw/x16zIpjXsDxzZNGj6C6d8iA==
 
 simple-git-hooks@^2.5.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/simple-git-hooks/-/simple-git-hooks-2.5.1.tgz#78ed9cfa552843bc45cd36ad5b7424567119c2f4"
-  integrity sha512-iI/MEEVObv45slsxz+BT+5NCS2UDgVIqfQKmNjL4/XnEfacpdYAHd71Imc5Nw/FY100A+i1PIXdIdkLHYcC2Bg==
+  version "2.11.1"
+  resolved "https://registry.yarnpkg.com/simple-git-hooks/-/simple-git-hooks-2.11.1.tgz#4102f0b49dd72f148394a4446a958ad5ed461991"
+  integrity sha512-tgqwPUMDcNDhuf1Xf6KTUsyeqGdgKMhzaH4PAZZuzguOgTl5uuyeYe/8mWgAr6IBxB5V06uqEf6Dy37gIWDtDg==
