@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"time"
 
@@ -51,6 +52,14 @@ func realMain() error {
 	mux := router.NewRouter(todoDB)
 
 	// TODO: サーバーをlistenする
+	server := http.Server{
+		Addr:    port,
+		Handler: mux,
+	}
+
+	log.Println("Server starting on port", port)
+
+	server.ListenAndServe()
 
 	return nil
 }
