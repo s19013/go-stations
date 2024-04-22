@@ -191,4 +191,8 @@ https://techbowl.co.jp/techtrain/mypage/profile
 # 参考にしたサイト
 
 ## sqllite
-https://www.ellenismos.com/go-sqlite3-gcc-install/#index_id3
+[Windows10にsqlite3とgccとgo-sqliteをインストールする【Go言語のオンライン学習日記】](https://www.ellenismos.com/go-sqlite3-gcc-install)
+
+
+## net/http
+[Goのhttp.Handlerやhttp.HandlerFuncをちゃんと理解する](https://journal.lampetty.net/entry/understanding-http-handler-in-go)
