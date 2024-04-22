@@ -8,22 +8,15 @@ import (
 )
 
 func Healthz(writer http.ResponseWriter, req *http.Request) {
-	// log.Println("writer", writer)
 
 	// レスポンスを生成する
-	response := model.HealthzResponse{Message: "message"}
+	response := model.HealthzResponse{Message: "ok"}
 
-	// 2. データ構造をJSONにエンコードしてHTTPレスポンスとして返す
+	// データ構造をJSONにエンコードしてHTTPレスポンスとして返す
 	writer.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(writer).Encode(response)
 	if err != nil {
 		return
 	}
 
-	// なんかこんな書き方もあるみたい｡
-	// jsonData, err := json.Marshal(person)
-	// if err != nil {
-	// 	fmt.Println("エラー:", err)
-	// 	return
-	// }
 }
