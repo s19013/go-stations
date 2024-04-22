@@ -8,6 +8,8 @@ import (
 	"github.com/TechBowl-japan/go-stations/model"
 )
 
+// これは必要なかった｡handlerディレクトリのhealthz.goのServeHTTPに処理書けって書いてた
+// 説明読んでなかった私が悪い｡記念に残そ｡
 func Healthz(writer http.ResponseWriter, req *http.Request) {
 
 	// レスポンスを生成する
