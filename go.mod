@@ -6,4 +6,5 @@ require (
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/jstemmer/go-junit-report v0.9.1
 	github.com/mattn/go-sqlite3 v1.14.22
+	golang.org/x/tools v0.20.0 // indirect
 )
