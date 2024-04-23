@@ -24,6 +24,7 @@ func (s *TODOService) CreateTODO(ctx context.Context, subject, description strin
 	const (
 		insert  = `INSERT INTO todos(subject, description) VALUES(?, ?)`
 		confirm = `SELECT subject, description, created_at, updated_at FROM todos WHERE id = ?`
+		// confirmで指定しているカラムとQueryRow,QueryRowContextの引数をあわせないとエラーになるので注意
 	)
 
 	result, err := s.db.ExecContext(ctx, insert, subject, description)
