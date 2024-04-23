@@ -27,18 +27,20 @@ func (s *TODOService) CreateTODO(ctx context.Context, subject, description strin
 		// confirmで指定しているカラムとQueryRow,QueryRowContextの引数をあわせないとエラーになるので注意
 	)
 
+	// データベースに登録
 	result, err := s.db.ExecContext(ctx, insert, subject, description)
 	if err != nil {
 		return nil, err
 	}
 
+	// 今保存したデータのIDを取り出す
 	lastID, err := result.LastInsertId()
 	if err != nil {
 		return nil, err
 	}
 
+	// IDを元にtodoのデータを取り出す
 	row := s.db.QueryRowContext(ctx, confirm, lastID)
-
 	var todo model.TODO
 	err = row.Scan(&todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
 	if err != nil {
