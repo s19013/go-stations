@@ -24,9 +24,28 @@ func (s *TODOService) CreateTODO(ctx context.Context, subject, description strin
 	const (
 		insert  = `INSERT INTO todos(subject, description) VALUES(?, ?)`
 		confirm = `SELECT subject, description, created_at, updated_at FROM todos WHERE id = ?`
+		// confirmで指定しているカラムとQueryRow,QueryRowContextの引数をあわせないとエラーになるので注意
 	)
 
-	return nil, nil
+	result, err := s.db.ExecContext(ctx, insert, subject, description)
+	if err != nil {
+		return nil, err
+	}
+
+	lastID, err := result.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+
+	row := s.db.QueryRowContext(ctx, confirm, lastID)
+
+	var todo model.TODO
+	err = row.Scan(&todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
+	if err != nil {
+		return nil, err
+	}
+
+	return &todo, err
 }
 
 // ReadTODO reads TODOs on DB.
@@ -55,3 +74,12 @@ func (s *TODOService) DeleteTODO(ctx context.Context, ids []int64) error {
 
 	return nil
 }
+
+// // dbに接続
+// func connectDB() {
+// 	db, err := sql.Open("sqlite3", "./example.sql")
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	defer db.Close()
+// }
