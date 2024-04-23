@@ -37,7 +37,7 @@ func (s *TODOService) CreateTODO(ctx context.Context, subject, description strin
 		return nil, err
 	}
 
-	row := s.db.QueryRow(confirm, lastID)
+	row := s.db.QueryRowContext(ctx, confirm, lastID)
 
 	var todo model.TODO
 	err = row.Scan(&todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
