@@ -27,8 +27,14 @@ func (s *TODOService) CreateTODO(ctx context.Context, subject, description strin
 		// confirmで指定しているカラムとQueryRow,QueryRowContextの引数をあわせないとエラーになるので注意
 	)
 
+	// prepareを使ってinjectionとかを回避する
+	prepared, err := s.db.PrepareContext(ctx, insert)
+	if err != nil {
+		return nil, err
+	}
+
 	// データベースに登録
-	result, err := s.db.ExecContext(ctx, insert, subject, description)
+	result, err := prepared.ExecContext(ctx, subject, description)
 	if err != nil {
 		return nil, err
 	}
