@@ -27,21 +27,22 @@ type (
 
 	// A ReadTODORequest expresses ...
 	ReadTODORequest struct {
-		ID          int    `json:"id"`
-		Subject     string `json:"subject"`
-		Description string `json:"description"`
 	}
 
 	// A ReadTODOResponse expresses ...
 	ReadTODOResponse struct {
-		Subject     string `json:"subject"`
-		Description string `json:"description"`
 	}
 
 	// A UpdateTODORequest expresses ...
-	UpdateTODORequest struct{}
+	UpdateTODORequest struct {
+		ID          int    `json:"id"`
+		Subject     string `json:"subject"`
+		Description string `json:"description"`
+	}
 	// A UpdateTODOResponse expresses ...
-	UpdateTODOResponse struct{}
+	UpdateTODOResponse struct {
+		TODO TODO `json:"todo"`
+	}
 
 	// A DeleteTODORequest expresses ...
 	DeleteTODORequest struct{}
