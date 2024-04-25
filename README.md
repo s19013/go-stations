@@ -195,6 +195,7 @@ https://techbowl.co.jp/techtrain/mypage/profile
 * [Go 言語の構造体 (struct)](https://golang.keicode.com/basics/go-struct.php)
 * [とほほのGo言語入門](https://www.tohoho-web.com/ex/golang.html)
 * [お気楽 Go 言語プログラミング入門](http://www.nct9.ne.jp/m_hiroi/golang/)
+* [a tour of go](https://go-tour-jp.appspot.com/list)
 
 ## sqllite
 * [Windows10にsqlite3とgccとgo-sqliteをインストールする【Go言語のオンライン学習日記】](https://www.ellenismos.com/go-sqlite3-gcc-install)
