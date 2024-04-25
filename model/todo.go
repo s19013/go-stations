@@ -19,15 +19,24 @@ type (
 		Subject     string `json:"subject"`
 		Description string `json:"description"`
 	}
+
 	// A CreateTODOResponse expresses ...
 	CreateTODOResponse struct {
 		TODO TODO `json:"todo"`
 	}
 
 	// A ReadTODORequest expresses ...
-	ReadTODORequest struct{}
+	ReadTODORequest struct {
+		ID          int    `json:"id"`
+		Subject     string `json:"subject"`
+		Description string `json:"description"`
+	}
+
 	// A ReadTODOResponse expresses ...
-	ReadTODOResponse struct{}
+	ReadTODOResponse struct {
+		Subject     string `json:"subject"`
+		Description string `json:"description"`
+	}
 
 	// A UpdateTODORequest expresses ...
 	UpdateTODORequest struct{}
