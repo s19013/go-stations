@@ -42,6 +42,7 @@ func (s *TODOService) CreateTODO(ctx context.Context, subject, description strin
 	// IDを元にtodoのデータを取り出す
 	row := s.db.QueryRowContext(ctx, confirm, lastID)
 	var todo model.TODO
+	todo.ID = int(lastID)
 	err = row.Scan(&todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
 	if err != nil {
 		return nil, err

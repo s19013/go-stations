@@ -189,10 +189,25 @@ https://techbowl.co.jp/techtrain/mypage/profile
 
 
 # 参考にしたサイト
+公式ドキュメント
+
+# go
+* [Go 言語の構造体 (struct)](https://golang.keicode.com/basics/go-struct.php)
+* [とほほのGo言語入門](https://www.tohoho-web.com/ex/golang.html)
+* [お気楽 Go 言語プログラミング入門](http://www.nct9.ne.jp/m_hiroi/golang/)
 
 ## sqllite
-[Windows10にsqlite3とgccとgo-sqliteをインストールする【Go言語のオンライン学習日記】](https://www.ellenismos.com/go-sqlite3-gcc-install)
-
+* [Windows10にsqlite3とgccとgo-sqliteをインストールする【Go言語のオンライン学習日記】](https://www.ellenismos.com/go-sqlite3-gcc-install)
+* [CHECK制約の使い方](https://www.javadrive.jp/sqlite/table/index13.html)
+* [Go言語でSQLite3を使う](https://zenn.dev/teasy/articles/go-sqlite3-sample)
 
 ## net/http
-[Goのhttp.Handlerやhttp.HandlerFuncをちゃんと理解する](https://journal.lampetty.net/entry/understanding-http-handler-in-go)
+* [公式ドキュメント](https://pkg.go.dev/net/http)
+* [Goのhttp.Handlerやhttp.HandlerFuncをちゃんと理解する](https://journal.lampetty.net/entry/understanding-http-handler-in-go)
+
+## database/sql
+* [公式ドキュメント](https://pkg.go.dev/database/sql)
+* [GolangでAPIを作る時に見るレシピ集](https://zenn.dev/chillout2san/articles/34aa952747880c)
+
+## reflect
+* [公式ドキュメント](https://pkg.go.dev/reflect)
