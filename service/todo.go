@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	"github.com/TechBowl-japan/go-stations/model"
 )
@@ -48,7 +49,6 @@ func (s *TODOService) CreateTODO(ctx context.Context, subject, description strin
 		return nil, err
 	}
 
-	// IDを元にtodoのデータを取り出す
 	preparedConfirm, err := s.db.PrepareContext(ctx, confirm)
 	if err != nil {
 		return nil, err
@@ -56,6 +56,7 @@ func (s *TODOService) CreateTODO(ctx context.Context, subject, description strin
 
 	defer preparedConfirm.Close()
 
+	// IDを元にtodoのデータを取り出す
 	row := preparedConfirm.QueryRowContext(ctx, lastID)
 
 	var todo model.TODO
@@ -86,7 +87,48 @@ func (s *TODOService) UpdateTODO(ctx context.Context, id int64, subject, descrip
 		confirm = `SELECT subject, description, created_at, updated_at FROM todos WHERE id = ?`
 	)
 
-	return nil, nil
+	// prepareを使ってinjectionとかを回避する
+	preparedUpdate, err := s.db.PrepareContext(ctx, update)
+	if err != nil {
+		return nil, err
+	}
+
+	// PrepareContext,Prepareを使う
+	defer preparedUpdate.Close()
+
+	// 更新
+	result, err := preparedUpdate.ExecContext(ctx, id, subject, description)
+	if err != nil {
+		return nil, err
+	}
+
+	// 今保存したデータのIDを取り出す
+	lastID, err := result.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println("lastID", lastID)
+
+	preparedConfirm, err := s.db.PrepareContext(ctx, confirm)
+	if err != nil {
+		return nil, err
+	}
+
+	defer preparedConfirm.Close()
+
+	// IDを元にtodoのデータを取り出す
+	row := preparedConfirm.QueryRowContext(ctx, lastID)
+
+	var todo model.TODO
+	todo.ID = int(lastID)
+
+	err = row.Scan(&todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
+	if err != nil {
+		return nil, err
+	}
+
+	return &todo, err
 }
 
 // DeleteTODO deletes TODOs on DB by ids.
