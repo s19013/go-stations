@@ -28,13 +28,16 @@ func (s *TODOService) CreateTODO(ctx context.Context, subject, description strin
 	)
 
 	// prepareを使ってinjectionとかを回避する
-	prepared, err := s.db.PrepareContext(ctx, insert)
+	preparedInsert, err := s.db.PrepareContext(ctx, insert)
 	if err != nil {
 		return nil, err
 	}
 
+	// PrepareContext,Prepareを使う
+	defer preparedInsert.Close()
+
 	// データベースに登録
-	result, err := prepared.ExecContext(ctx, subject, description)
+	result, err := preparedInsert.ExecContext(ctx, subject, description)
 	if err != nil {
 		return nil, err
 	}
@@ -46,9 +49,18 @@ func (s *TODOService) CreateTODO(ctx context.Context, subject, description strin
 	}
 
 	// IDを元にtodoのデータを取り出す
-	row := s.db.QueryRowContext(ctx, confirm, lastID)
+	preparedConfirm, err := s.db.PrepareContext(ctx, confirm)
+	if err != nil {
+		return nil, err
+	}
+
+	defer preparedConfirm.Close()
+
+	row := preparedConfirm.QueryRowContext(ctx, lastID)
+
 	var todo model.TODO
 	todo.ID = int(lastID)
+
 	err = row.Scan(&todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
 	if err != nil {
 		return nil, err
