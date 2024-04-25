@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
-	"fmt"
+	"log"
 
 	"github.com/TechBowl-japan/go-stations/model"
 )
@@ -90,6 +90,7 @@ func (s *TODOService) UpdateTODO(ctx context.Context, id int64, subject, descrip
 	// prepareを使ってinjectionとかを回避する
 	preparedUpdate, err := s.db.PrepareContext(ctx, update)
 	if err != nil {
+		log.Panicln("err", err)
 		return nil, err
 	}
 
@@ -97,34 +98,30 @@ func (s *TODOService) UpdateTODO(ctx context.Context, id int64, subject, descrip
 	defer preparedUpdate.Close()
 
 	// 更新
-	result, err := preparedUpdate.ExecContext(ctx, id, subject, description)
+	result, err := preparedUpdate.ExecContext(ctx, subject, description, id)
 	if err != nil {
 		return nil, err
 	}
-
-	// 今保存したデータのIDを取り出す
-	lastID, err := result.LastInsertId()
-	if err != nil {
-		return nil, err
-	}
-
-	fmt.Println("lastID", lastID)
+	// resultいらないんだけどなんか使わないとエラーになるからここで適当につかう
+	result.LastInsertId() //更新なので0
 
 	preparedConfirm, err := s.db.PrepareContext(ctx, confirm)
 	if err != nil {
+		log.Panicln("err", err)
 		return nil, err
 	}
 
 	defer preparedConfirm.Close()
 
 	// IDを元にtodoのデータを取り出す
-	row := preparedConfirm.QueryRowContext(ctx, lastID)
+	row := preparedConfirm.QueryRowContext(ctx, id)
 
 	var todo model.TODO
-	todo.ID = int(lastID)
+	todo.ID = int(id)
 
 	err = row.Scan(&todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
 	if err != nil {
+		log.Panicln("err", err)
 		return nil, err
 	}
 
