@@ -169,7 +169,7 @@ func withOutPrevID(s *TODOService, ctx context.Context, sql string, size int64) 
 	var TODOs []*model.TODO
 
 	for rows.Next() {
-		var todo *model.TODO
+		todo := &model.TODO{}
 
 		err := rows.Scan(&todo.ID, &todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
 		if err != nil {
