@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/TechBowl-japan/go-stations/handler"
 	"github.com/TechBowl-japan/go-stations/model"
@@ -23,26 +24,25 @@ func NewRouter(todoDB *sql.DB) *http.ServeMux {
 		todoHandler := handler.NewTODOHandler(todoService)
 
 		if r.Method == http.MethodGet {
-			// body取り出し
-			body, err := io.ReadAll(r.Body)
+			// クエリー取り出し
+			query := r.URL.Query()
+
+			// 数値しか受け付けないようにしてあるので変換する必要がある
+			prevID, err := strconv.Atoi(query.Get("prev_id"))
 			if err != nil {
-				http.Error(w, "Error reading request body", http.StatusInternalServerError)
-				return
+				// 初期値設定する
+				prevID = 0
 			}
 
-			// json変化
-			var request model.ReadTODORequest
-			err2 := json.Unmarshal(body, &request)
-			// err2 := json.NewDecoder(bytes.NewReader(body)).Decode(&request)
-			if err2 != nil {
-				log.Println("err2", err2)
-				http.Error(w, "Failed to parse JSON body", http.StatusBadRequest)
-				return
+			size, err := strconv.Atoi(query.Get("size"))
+			if err != nil {
+				// 初期値設定する
+				size = 0
 			}
 
-			// sizeがあるか確認
-			if request.Size == 0 {
-				request.Size = 10
+			request := model.ReadTODORequest{
+				PrevID: prevID,
+				Size:   size,
 			}
 
 			// todoを受け取る
