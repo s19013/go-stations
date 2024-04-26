@@ -77,7 +77,22 @@ func (s *TODOService) ReadTODO(ctx context.Context, prevID, size int64) ([]*mode
 		readWithID = `SELECT id, subject, description, created_at, updated_at FROM todos WHERE id < ? ORDER BY id DESC LIMIT ?`
 	)
 
-	return nil, nil
+	if prevID == 0 {
+		TODOs, err := withOutPrevID(s, ctx, read, size)
+		if err != nil {
+			log.Print("err", err)
+			return nil, err
+		}
+		return TODOs, nil
+	}
+
+	TODOs, err := withPrevID(s, ctx, read, prevID, size)
+	if err != nil {
+		log.Print("err", err)
+		return nil, err
+	}
+	return TODOs, nil
+
 }
 
 // UpdateTODO updates the TODO on DB.
@@ -135,11 +150,64 @@ func (s *TODOService) DeleteTODO(ctx context.Context, ids []int64) error {
 	return nil
 }
 
-// // dbに接続
-// func connectDB() {
-// 	db, err := sql.Open("sqlite3", "./example.sql")
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	defer db.Close()
-// }
+// 1つだけほしいならQueryRowContext
+// 複数返してほしいならQueryContext
+func withOutPrevID(s *TODOService, ctx context.Context, sql string, size int64) ([]*model.TODO, error) {
+	preparedQuery, err := s.db.PrepareContext(ctx, sql)
+	if err != nil {
+		log.Print("err", err)
+	}
+
+	defer preparedQuery.Close()
+
+	rows, err := preparedQuery.QueryContext(ctx, size)
+	if err != nil {
+		return nil, err
+	}
+
+	var TODOs []*model.TODO
+
+	for rows.Next() {
+		var todo *model.TODO
+
+		err := rows.Scan(&todo.ID, &todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
+		if err != nil {
+			return nil, err
+		}
+
+		// 配列に追加
+		TODOs = append(TODOs, todo)
+	}
+
+	return TODOs, err
+}
+
+func withPrevID(s *TODOService, ctx context.Context, sql string, PrevID, size int64) ([]*model.TODO, error) {
+	preparedQuery, err := s.db.PrepareContext(ctx, sql)
+	if err != nil {
+		log.Print("err", err)
+	}
+
+	defer preparedQuery.Close()
+
+	rows, err := preparedQuery.QueryContext(ctx, PrevID, size)
+	if err != nil {
+		return nil, err
+	}
+
+	var TODOs []*model.TODO
+
+	for rows.Next() {
+		var todo *model.TODO
+
+		err := rows.Scan(&todo.ID, &todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
+		if err != nil {
+			return nil, err
+		}
+
+		// 配列に追加
+		TODOs = append(TODOs, todo)
+	}
+
+	return TODOs, err
+}
