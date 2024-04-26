@@ -209,6 +209,8 @@ https://techbowl.co.jp/techtrain/mypage/profile
 ## database/sql
 * [公式ドキュメント](https://pkg.go.dev/database/sql)
 * [GolangでAPIを作る時に見るレシピ集](https://zenn.dev/chillout2san/articles/34aa952747880c)
+* [SQLの実行](https://www.twihike.dev/docs/golang-database/queries)
+* [Go言語でMySQL の基本的操作（SELECT、UPDATE、INSERT）を行う](https://qiita.com/ShinyaIshikawa/items/fede44cee7c71721247a)
 
 ## reflect
 * [公式ドキュメント](https://pkg.go.dev/reflect)
