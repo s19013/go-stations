@@ -156,6 +156,7 @@ func withOutPrevID(s *TODOService, ctx context.Context, sql string, size int64) 
 	preparedQuery, err := s.db.PrepareContext(ctx, sql)
 	if err != nil {
 		log.Print("err", err)
+		return nil, err
 	}
 
 	defer preparedQuery.Close()
@@ -179,7 +180,7 @@ func withOutPrevID(s *TODOService, ctx context.Context, sql string, size int64) 
 		TODOs = append(TODOs, todo)
 	}
 
-	return TODOs, err
+	return TODOs, nil
 }
 
 func withPrevID(s *TODOService, ctx context.Context, sql string, PrevID, size int64) ([]*model.TODO, error) {
