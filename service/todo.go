@@ -86,9 +86,9 @@ func (s *TODOService) ReadTODO(ctx context.Context, prevID, size int64) ([]*mode
 		return TODOs, nil
 	}
 
-	TODOs, err := withPrevID(s, ctx, read, prevID, size)
+	TODOs, err := withPrevID(s, ctx, readWithID, prevID, size)
 	if err != nil {
-		log.Print("err", err)
+		log.Print("err:", err)
 		return nil, err
 	}
 	return TODOs, nil
@@ -163,6 +163,7 @@ func withOutPrevID(s *TODOService, ctx context.Context, sql string, size int64) 
 
 	rows, err := preparedQuery.QueryContext(ctx, size)
 	if err != nil {
+		log.Print("err:", err)
 		return nil, err
 	}
 
@@ -173,6 +174,7 @@ func withOutPrevID(s *TODOService, ctx context.Context, sql string, size int64) 
 
 		err := rows.Scan(&todo.ID, &todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
 		if err != nil {
+			log.Print("err:", err)
 			return nil, err
 		}
 
@@ -186,23 +188,27 @@ func withOutPrevID(s *TODOService, ctx context.Context, sql string, size int64) 
 func withPrevID(s *TODOService, ctx context.Context, sql string, PrevID, size int64) ([]*model.TODO, error) {
 	preparedQuery, err := s.db.PrepareContext(ctx, sql)
 	if err != nil {
-		log.Print("err", err)
+		log.Print("err:", err)
+		return nil, err
 	}
 
 	defer preparedQuery.Close()
 
 	rows, err := preparedQuery.QueryContext(ctx, PrevID, size)
+
 	if err != nil {
+		log.Print("err:", err)
 		return nil, err
 	}
 
 	var TODOs []*model.TODO
 
 	for rows.Next() {
-		var todo *model.TODO
+		todo := &model.TODO{}
 
 		err := rows.Scan(&todo.ID, &todo.Subject, &todo.Description, &todo.CreatedAt, &todo.UpdatedAt)
 		if err != nil {
+			log.Print("err:", err)
 			return nil, err
 		}
 
@@ -210,5 +216,5 @@ func withPrevID(s *TODOService, ctx context.Context, sql string, PrevID, size in
 		TODOs = append(TODOs, todo)
 	}
 
-	return TODOs, err
+	return TODOs, nil
 }
