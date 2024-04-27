@@ -146,6 +146,46 @@ func NewRouter(todoDB *sql.DB) *http.ServeMux {
 			}
 
 		}
+
+		if r.Method == http.MethodDelete {
+			// body取り出し
+			body, err := io.ReadAll(r.Body)
+			if err != nil {
+				http.Error(w, "Error reading request body", http.StatusInternalServerError)
+				return
+			}
+
+			// json変化
+			var request model.DeleteTODORequest
+			err2 := json.Unmarshal(body, &request)
+			// err2 := json.NewDecoder(bytes.NewReader(body)).Decode(&request)
+			if err2 != nil {
+				log.Println("err2", err2)
+				http.Error(w, "Failed to parse JSON body", http.StatusBadRequest)
+				return
+			}
+
+			// idsがあるか確認
+			if len(request.IDs) == 0 {
+				http.Error(w, "Error ID not exist", http.StatusBadRequest)
+				return
+			}
+
+			// 削除
+			response, err3 := todoHandler.Delete(r.Context(), &request)
+			if err3 != nil {
+				log.Println("err3", err3)
+				return
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			err4 := json.NewEncoder(w).Encode(response)
+			if err4 != nil {
+				log.Println("err4", err4)
+				return
+			}
+
+		}
 	})
 
 	return mux
