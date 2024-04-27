@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/TechBowl-japan/go-stations/handler"
 	"github.com/TechBowl-japan/go-stations/model"
@@ -21,6 +22,44 @@ func NewRouter(todoDB *sql.DB) *http.ServeMux {
 	mux.HandleFunc("/todos", func(w http.ResponseWriter, r *http.Request) {
 		todoService := service.NewTODOService(todoDB)
 		todoHandler := handler.NewTODOHandler(todoService)
+
+		if r.Method == http.MethodGet {
+			// クエリー取り出し
+			query := r.URL.Query()
+
+			// 数値しか受け付けないようにしてあるので変換する必要がある
+			prevID, err := strconv.Atoi(query.Get("prev_id"))
+			if err != nil {
+				// 初期値設定する
+				prevID = 0
+			}
+
+			size, err := strconv.Atoi(query.Get("size"))
+			if err != nil {
+				// 初期値設定する
+				size = 0
+			}
+
+			request := model.ReadTODORequest{
+				PrevID: prevID,
+				Size:   size,
+			}
+
+			// todoを受け取る
+			response, err3 := todoHandler.Read(r.Context(), &request)
+			if err3 != nil {
+				log.Println("err3", err3)
+				return
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			err4 := json.NewEncoder(w).Encode(response)
+			if err4 != nil {
+				log.Println("err4", err4)
+				return
+			}
+
+		}
 
 		if r.Method == http.MethodPost {
 			// body取り出し

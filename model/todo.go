@@ -27,10 +27,13 @@ type (
 
 	// A ReadTODORequest expresses ...
 	ReadTODORequest struct {
+		PrevID int `json:"prev_id"`
+		Size   int `json:"size"`
 	}
 
 	// A ReadTODOResponse expresses ...
 	ReadTODOResponse struct {
+		TODOs []*TODO `json:"todos"`
 	}
 
 	// A UpdateTODORequest expresses ...
