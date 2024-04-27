@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"log"
+	"strings"
 
 	"github.com/TechBowl-japan/go-stations/model"
 )
@@ -145,9 +146,44 @@ func (s *TODOService) UpdateTODO(ctx context.Context, id int64, subject, descrip
 
 // DeleteTODO deletes TODOs on DB by ids.
 func (s *TODOService) DeleteTODO(ctx context.Context, ids []int64) error {
-	const deleteFmt = `DELETE FROM todos WHERE id IN (?%s)`
+	var deleteFmt = `DELETE FROM todos WHERE id IN (`
+
+	// in句の (要素1,要素2...) を作る
+	// 要素の分だけ?を用意
+	placeholders := make([]string, len(ids))
+	for i := range placeholders {
+		placeholders[i] = "?"
+	}
+
+	//
+	deleteFmt += strings.Join(placeholders, ", ") + ")"
+
+	preparedQuert, err := s.db.PrepareContext(ctx, deleteFmt)
+	if err != nil {
+		log.Println("Prepare err:", err)
+		return err
+	}
+
+	defer preparedQuert.Close()
+
+	result, err := preparedQuert.ExecContext(ctx, toInterfaceSlice(ids)...)
+	log.Println("result:", result)
+	if err != nil {
+		log.Println("Exec err:", err)
+		return err
+	}
 
 	return nil
+}
+
+// なんかids...みたいな書き方するときに[]int64のままだと使えないんだってさ｡
+// int64 スライスから interface{} スライスへの変換関数
+func toInterfaceSlice(ids []int64) []interface{} {
+	result := make([]interface{}, len(ids))
+	for i, v := range ids {
+		result[i] = v
+	}
+	return result
 }
 
 // 1つだけほしいならQueryRowContext
