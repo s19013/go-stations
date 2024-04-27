@@ -196,6 +196,18 @@ https://techbowl.co.jp/techtrain/mypage/profile
 * [とほほのGo言語入門](https://www.tohoho-web.com/ex/golang.html)
 * [お気楽 Go 言語プログラミング入門](http://www.nct9.ne.jp/m_hiroi/golang/)
 * [a tour of go](https://go-tour-jp.appspot.com/list)
+* [Golang 型確認](https://qiita.com/mykysyk@github/items/08a7203d6013ecd74e9b)
+* [GoのMarshal/Unmarshalの基本的な使い方とプライベートフィールドを持つ構造体での利用方法](https://www.asobou.co.jp/blog/web/marshal-unmarshal)
+* [【Go言語】jsonデータをstreamで扱うEncoder、Decoder型を試してみる](https://www.asobou.co.jp/blog/web/encoder-decoder)
+* [[Go] json.Unmarshal と json.Decoder の使い分け ～ json.Decoder に親しむ](https://zenn.dev/kariya_mitsuru/articles/921f162262ce24)
+* [Goにおけるjsonの扱い方を整理・考察してみた ~ データスキーマを添えて](https://zenn.dev/hsaki/articles/go-convert-json-struct)
+* [Golangのjson.Unmarshalとjson.Decoder.Decodeの違い](https://otameshi61.hatenablog.com/entry/2022/08/11/100322)
+* [Goの基礎](https://golang.keicode.com/basics/)
+* [【Golang】RequestからQueryStringを取得するには](https://blog.ryskit.com/entry/2018/07/08/175749)
+* [Go言語で初めてWebアプリを作る際に役立ちそうな参考文献リンク集(日/英)](https://qiita.com/AYukiEngineer/items/bef36bd4752535e8d1f2)
+* [Goの初心者が見ると幸せになれる場所](https://qiita.com/tenntenn/items/0e33a4959250d1a55045)
+* [Awesome Go : 素晴らしい Go のフレームワーク・ライブラリ・ソフトウェアの数々](https://qiita.com/hatai/items/f31914f37dc6c53b2bce)
+* [Go/標準ライブラリー](https://ja.wikibooks.org/wiki/Go/%E6%A8%99%E6%BA%96%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%83%BC)
 
 ## sqllite
 * [Windows10にsqlite3とgccとgo-sqliteをインストールする【Go言語のオンライン学習日記】](https://www.ellenismos.com/go-sqlite3-gcc-install)
@@ -205,12 +217,16 @@ https://techbowl.co.jp/techtrain/mypage/profile
 ## net/http
 * [公式ドキュメント](https://pkg.go.dev/net/http)
 * [Goのhttp.Handlerやhttp.HandlerFuncをちゃんと理解する](https://journal.lampetty.net/entry/understanding-http-handler-in-go)
+* [【Go】net/httpでGetしたjsonのResponseを見る](https://zenn.dev/yoji/articles/39d00b851af9d3)
+* [Go における HTTP リクエストの受け取り方](https://qiita.com/BitterBamboo/items/182659dddc5b4b195976)
+* [【要約版】net/httpでつくるHTTPルーター自作入門](https://qiita.com/bmf_san/items/312fac5b3132d8bee4ca)
 
 ## database/sql
 * [公式ドキュメント](https://pkg.go.dev/database/sql)
 * [GolangでAPIを作る時に見るレシピ集](https://zenn.dev/chillout2san/articles/34aa952747880c)
 * [SQLの実行](https://www.twihike.dev/docs/golang-database/queries)
 * [Go言語でMySQL の基本的操作（SELECT、UPDATE、INSERT）を行う](https://qiita.com/ShinyaIshikawa/items/fede44cee7c71721247a)
+* [golang MariaDB IN句へ配列データの渡し方](https://blog.wsd.sh/?p=953)
 
 ## reflect
 * [公式ドキュメント](https://pkg.go.dev/reflect)
